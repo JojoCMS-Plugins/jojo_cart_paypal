@@ -26,6 +26,17 @@ if (class_exists(Jojo_Cart_Class)) {
 Jojo::registerURI("cart/ipn", 'jojo_plugin_Jojo_cart_paypal_ipn'); // "cart/process/paypal"
 
 $_options[] = array(
+    'id'          => 'jojo_cart_paypal_testemail',
+    'category'    => 'Cart',
+    'label'       => 'Paypal TEST email',
+    'description' => 'The PayPal TEST account (email address) you would like payments to go to',
+    'type'        => 'text',
+    'default'     => '',
+    'options'     => '',
+    'plugin'      => 'jojo_cart_paypal'
+);
+
+$_options[] = array(
     'id'          => 'jojo_cart_paypal_email',
     'category'    => 'Cart',
     'label'       => 'Paypal email',

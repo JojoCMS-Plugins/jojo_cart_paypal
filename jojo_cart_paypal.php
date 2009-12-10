@@ -43,6 +43,16 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
           }
         $smarty->assign('cardtypes', $cardtypes);
 
+        $testmode=call_user_func(array(Jojo_Cart_Class, 'isTestMode'));
+
+        if($testmode) {
+          $smarty->assign('paypalform',"https://www.sandbox.paypal.com/nz/cgi-bin/webscr");
+          $smarty->assign('paypalemail',Jojo::getOption('jojo_cart_paypal_testemail',false));
+        } else {
+          $smarty->assign('paypalform',"https://www.paypal.com/nz/cgi-bin/webscr");
+          $smarty->assign('paypalemail',Jojo::getOption('jojo_cart_paypal_email',false));
+        }
+
             $options[] = array('id' => 'paypal', 'label' => 'PayPal or credit card '.implode(' ', $cardimages), 'html' => $smarty->fetch('jojo_cart_paypal_checkout.tpl'));
         }
         return $options;

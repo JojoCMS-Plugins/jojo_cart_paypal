@@ -8,7 +8,7 @@
 	$PROXY_PORT = '808';
 	$_apiURL = "https://api.paypal.com/2.0/";
 
-	$SandboxFlag = false;
+	$SandboxFlag = call_user_func(array(Jojo_Cart_Class, 'isTestMode'));
 
 	//'------------------------------------
 	//' PayPal API Credentials
