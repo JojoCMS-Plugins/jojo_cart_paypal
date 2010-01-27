@@ -4,12 +4,12 @@
     <p>PayPal is a secure 3rd party payment processor. PayPal accepts payments using Visa, Mastercard, American Express and Discover credit cards, or funds in your existing PayPal account.</p>
     <p>Press the 'Buy now' button to be redirected to the PayPal payment page where you can enter your credit card or PayPal account details. Once the transaction is complete, you will be sent a confirmation email and returned to this website.</p>
     <div style="text-align: center">
-      <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+      <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal" />
     </div>
     <div class="clear"></div>
 
     <h3>Paying by credit card?</h3>
-    <p>PayPal does accept credit card payments. When you arrive at the PayPal login screen, use the link indicated in the following screenshot.<p>
+    <p>PayPal does accept credit card payments. When you arrive at the PayPal login screen, use the link indicated in the following screenshot.</p>
     <a href="images/paypal-example-large.jpg" target="_BLANK"><img src="images/paypal-example.jpg" alt="How to pay by credit card" /></a><br />
     <em>When you arrive at PayPal, click the link indicated to enter credit card details.</em>
     <div class="clear"></div>
@@ -60,6 +60,6 @@
 
   </div>
 <div style="text-align: center">
-  <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" id="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+  <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" id="submit" alt="Make payments with PayPal" />
 </div>
 </form>
