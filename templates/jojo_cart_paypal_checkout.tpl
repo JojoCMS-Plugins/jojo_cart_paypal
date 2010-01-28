@@ -21,7 +21,7 @@
     <input type="hidden" name="business" value="{$paypalemail}" />
     <input type="hidden" name="item_name" value="{$sitetitle} Order" />
     <input type="hidden" name="currency_code" value="{$order.currency|default:'USD'}" />
-    <input type="hidden" name="amount" value="{$order.amount|string_format:"%01.2f"}" />
+    <input type="hidden" name="amount" value="{if $order.currency=='JPY'}{$order.amount|string_format:"%01.0f"}{else}{$order.amount|string_format:"%01.2f"}{/if}" />
 
     <input type="hidden" name="return" value="{$SECUREURL}/cart/complete/{$token}/" />
     <input type="hidden" name="rm" value="2" />{* POST the user back to the return URL *}
@@ -39,9 +39,9 @@
     {assign var=loopindex value=`$smarty.foreach.i.index+1`}
     <input type="hidden" name="item_name_{$loopindex}" value="{$i.name}" />
     <input type="hidden" name="item_number_{$loopindex}" value="{$i.id}" />
-    <input type="hidden" name="amount_{$loopindex}" value="{$i.netprice|string_format:"%01.2f"}" />
+    <input type="hidden" name="amount_{$loopindex}" value="{if $order.currency=='JPY'}{$i.netprice|string_format:"%01.0f"}{else}{$i.netprice|string_format:"%01.2f"}{/if}" />
     {if $loopindex == 1}
-      <input type="hidden" name="shipping_{$loopindex}" value="{$order.freight|string_format:"%01.2f"}" />
+      <input type="hidden" name="shipping_{$loopindex}" value="{if $order.currency=='JPY'}{$order.freight|string_format:"%01.0f"}{else}{$order.freight|string_format:"%01.2f"}{/if}" />
     {else}
       <input type="hidden" name="shipping_{$loopindex}" value="0" />
     {/if}
