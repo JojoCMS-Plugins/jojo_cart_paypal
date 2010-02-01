@@ -51,9 +51,9 @@ $_options[] = array(
     'id'          => 'jojo_cart_paypal_card_types',
     'category'    => 'Cart',
     'label'       => 'Paypal Card types',
-    'description' => 'A comma separated list of card types that are accepted by Paypal - you may wish to hide some of these if they are offered by other payment providers (visa, mastercard, amex, discover, paypal)',
+    'description' => 'A comma separated list of card types that are accepted by Paypal - you may wish to hide some of these if they are offered by other payment providers (visa, mastercard, amex, paypal)',
     'type'        => 'text',
-    'default'     => 'visa,mastercard,amex,discover,paypal',
+    'default'     => 'visa,mastercard,amex,paypal',
     'options'     => '',
     'plugin'      => 'jojo_cart_paypal'
 );
