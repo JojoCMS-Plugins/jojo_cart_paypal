@@ -48,6 +48,9 @@
     <input type="hidden" name="quantity_{$loopindex}" value="{$i.quantity}" />
     {/foreach}
 
+{if $order.fixedorder}
+    <input type="hidden" name="discount_amount_cart" value="{$order.fixedorder}" />
+{/if}
     <input type="hidden" name="first_name" value="{if $fields.billing_firstname}{$fields.billing_firstname}{else}{$fields.shipping_firstname}{/if}" />
     <input type="hidden" name="last_name" id="last_name" value="{if $fields.billing_lastname}{$fields.billing_lastname}{else}{$fields.shipping_lastname}{/if}" />
     <input type="hidden" name="email" value="{if $fields.billing_email}{$fields.billing_email}{else}{$fields.shipping_email}{/if}" />
