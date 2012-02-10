@@ -79,12 +79,13 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
 
         $message = ($result) ? 'Thank you for your payment via Paypal.': '';
 
-        return array(
+         $return = array(
                  'success' => $result,
                  'receipt' => $receipt,
                  'errors'  => $errors,
                  'message' => $message
                  );
+         return $return;
     }
 
 
@@ -108,7 +109,6 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
 
         if (!$fp) {
             /* returning a 404 tells PayPal to try again later */
-
             $toname      = _FROMNAME;
             $toaddress   = _WEBMASTERADDRESS;
             $subject     = 'Paypal transaction '.Jojo::getOption('sitetitle');
@@ -132,12 +132,11 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
                     // process payment
                     return true;
                 } else if (strcmp ($res, "INVALID") == 0) {
+                    Jojo::simpleMail(_FROMNAME, _WEBMASTERADDRESS, 'Paypal invalid response from '.Jojo::getIP().' - please contact webmaster', $req);
                     return false;
                 }
             }
             fclose ($fp);
-
-
         }
         return false;
     }
