@@ -100,10 +100,18 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
         }
 
         // post back to PayPal system to validate
+        /*
         $header = '';
         $header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
         $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
         $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+        */
+        /* updated Paypal code for 7 Oct 2013 */
+        $header = '';
+        $header .="POST /cgi-bin/webscr HTTP/1.1\r\n";
+        $header .="Content-Type: application/x-www-form-urlencoded\r\n";
+        $header .="Host: www.paypal.com\r\n";
+        $header .="Connection: close\r\n\r\n";
 
         $fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
 
