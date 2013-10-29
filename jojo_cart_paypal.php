@@ -16,7 +16,7 @@
 
 class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
 {
-    function getPaymentOptions()
+    static function getPaymentOptions()
     {
         global $smarty;
         $options = array();
@@ -30,15 +30,15 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
           foreach ($cardtypes as $k => $v) {
               $cardtypes[$k] = trim(ucwords($v));
               if ($cardtypes[$k] == 'Visa') {
-                  $cardimages[$k] = '<img class="creditcard-icon" src="images/creditcardvisa.gif" alt="Visa" title="Visa" />';
+                  $cardimages[$k] = '<img class="icon-image" src="images/creditcardvisa.gif" alt="Visa" title="Visa" />';
               } elseif ($cardtypes[$k] == 'Mastercard') {
-                  $cardimages[$k] = '<img class="creditcard-icon" src="images/creditcardmastercard.gif" alt="Mastercard" title="Mastercard" />';
+                  $cardimages[$k] = '<img class="icon-image" src="images/creditcardmastercard.gif" alt="Mastercard" title="Mastercard" />';
               } elseif ($cardtypes[$k] == 'Amex') {
-                  $cardimages[$k] = '<img class="creditcard-icon" src="images/creditcardamex.gif" alt="American Express" title="American Express" />';
+                  $cardimages[$k] = '<img class="icon-image" src="images/creditcardamex.gif" alt="American Express" title="American Express" />';
               } elseif ($cardtypes[$k] == 'Discover') {
-                  $cardimages[$k] = '<img class="creditcard-icon" src="images/creditcarddiscover.gif" alt="Discover" title="Discover" />';
+                  $cardimages[$k] = '<img class="icon-image" src="images/creditcarddiscover.gif" alt="Discover" title="Discover" />';
               } elseif ($cardtypes[$k] == 'Paypal') {
-                  $cardimages[$k] = '<img class="creditcard-icon" src="images/creditcardpaypal.gif" alt="PayPal" title="PayPal" />';
+                  $cardimages[$k] = '<img class="icon-image" src="images/creditcardpaypal.gif" alt="PayPal" title="PayPal" />';
               }
           }
         $smarty->assign('cardtypes', $cardtypes);
@@ -61,7 +61,7 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
     /*
     * Determines whether this payment plugin is active for the current payment.
     */
-    function isActive()
+    static function isActive()
     {
         /* PayPal will post a 'custom' var which should match the token */
         if (Jojo::getGet('token', true) == Jojo::getPost('custom', false)) return true;
@@ -70,9 +70,9 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
         return (Jojo::getFormData('handler', false) == 'paypal') ? true : false;
     }
 
-    function process()
+    static function process()
     {
-        $result = jojo_plugin_jojo_cart_paypal::pingPaypal();
+        $result = self::pingPaypal();
         //$receipt = array('Info' => '');
         $receipt = array();//TODO: build a proper receipt
         $errors = array();
@@ -89,7 +89,7 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
     }
 
 
-    function pingPaypal()
+    private static function pingPaypal()
     {
         // read the post from PayPal system and add 'cmd'
         $req = 'cmd=_notify-validate';
@@ -107,11 +107,11 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
         $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
         */
         /* updated Paypal code for 7 Oct 2013 */
-        $header = '';
-        $header .="POST /cgi-bin/webscr HTTP/1.1\r\n";
-        $header .="Content-Type: application/x-www-form-urlencoded\r\n";
-        $header .="Host: www.paypal.com\r\n";
-        $header .="Connection: close\r\n\r\n";
+        $header = "POST /cgi-bin/webscr HTTP/1.1\r\n";
+        $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $header .= "Content-Length: " . strlen($req) . "\r\n";
+        $header .= "Host: www.paypal.com\r\n";
+        $header .= "Connection: close\r\n\r\n";
 
         $fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
 

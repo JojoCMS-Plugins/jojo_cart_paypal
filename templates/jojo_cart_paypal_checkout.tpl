@@ -25,19 +25,20 @@
 
     <input type="hidden" name="undefined_quantity" value="1" />
 
-    {foreach from=$items key=k item=i name=i}
+    {assign var=first value=true}{assign var=count value=1}
+    {foreach from=$items key=k item=i name=i}{if $i.quantity}
     <!-- [Item details] -->
-    {assign var=loopindex value=`$smarty.foreach.i.index+1`}
-    <input type="hidden" name="item_name_{$loopindex}" value="{$i.name}" />
-    <input type="hidden" name="item_number_{$loopindex}" value="{$i.id}" />
-    <input type="hidden" name="amount_{$loopindex}" value="{if $order.currency=='JPY'}{$i.netprice|string_format:"%01.0f"}{else}{$i.netprice|string_format:"%01.2f"}{/if}" />
-    {if $loopindex == 1}
-      <input type="hidden" name="shipping_{$loopindex}" value="{if $order.currency=='JPY'}{$order.freight|string_format:"%01.0f"}{else}{$order.freight|string_format:"%01.2f"}{/if}" />
+    <input type="hidden" name="item_name_{$count}" value="{$i.name}" />
+    <input type="hidden" name="item_number_{$count}" value="{$i.id}" />
+    <input type="hidden" name="amount_{$count}" value="{if $order.currency=='JPY'}{$i.netprice|string_format:"%01.0f"}{else}{$i.netprice|string_format:"%01.2f"}{/if}" />
+    {if $first}{assign var=first value=false}
+      <input type="hidden" name="shipping_{$count}" value="{if $order.currency=='JPY'}{$order.freight|string_format:"%01.0f"}{else}{$order.freight|string_format:"%01.2f"}{/if}" />
     {else}
-      <input type="hidden" name="shipping_{$loopindex}" value="0" />
+      <input type="hidden" name="shipping_{$count}" value="0" />
     {/if}
-    <input type="hidden" name="quantity_{$loopindex}" value="{$i.quantity}" />
-    {/foreach}
+    <input type="hidden" name="quantity_{$count}" value="{$i.quantity}" />
+    {assign var=count value=$count+1}
+    {/if}{/foreach}
 
 {if $order.fixedorder}
     <input type="hidden" name="discount_amount_cart" value="{$order.fixedorder}" />
