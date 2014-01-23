@@ -113,7 +113,7 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
         $header .= "Host: www.paypal.com\r\n";
         $header .= "Connection: close\r\n\r\n";
 
-        $fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
+        $fp = fsockopen('ssl://www.paypal.com', 443, $errno, $errstr, 30);
 
         if (!$fp) {
             /* returning a 404 tells PayPal to try again later */
@@ -129,22 +129,34 @@ class jojo_plugin_jojo_cart_paypal extends JOJO_Plugin
             exit;
             return false;
         } else {
-            fputs ($fp, $header . $req);
+            fputs($fp, $header . $req);
             while (!feof($fp)) {
-                $res = fgets ($fp, 1024);
-                if (strcmp ($res, "VERIFIED") == 0) {
+                $res = trim(fgets($fp, 1024), "\r\n");
+                if (strcmp($res, "VERIFIED") === 0) {
                     // check the payment_status is Completed
                     // check that txn_id has not been previously processed
                     // check that receiver_email is your Primary PayPal email
                     // check that payment_amount/payment_currency are correct
                     // process payment
                     return true;
-                } else if (strcmp ($res, "INVALID") == 0) {
-                    Jojo::simpleMail(_FROMNAME, _WEBMASTERADDRESS, 'Paypal invalid response from '.Jojo::getIP().' - please contact webmaster', $req);
+                } else if (strcmp($res, "INVALID") === 0) {
+                    Jojo::simpleMail(_FROMNAME, _WEBMASTERADDRESS, 'Paypal invalid response from '.Jojo::getIP().' - please contact webmaster.', $req);
                     return false;
                 }
             }
-            fclose ($fp);
+            fclose($fp);
+            /* returning a 404 tells PayPal to try again later */
+            $toname      = _FROMNAME;
+            $toaddress   = _WEBMASTERADDRESS;
+            $subject     = 'Paypal transaction '.Jojo::getOption('sitetitle');
+            $message     = 'Paypal response had no valid data.'.Jojo::emailFooter();
+            $fromname    = _FROMNAME;
+            $fromaddress = _WEBMASTERADDRESS;
+            Jojo::simpleMail($toname, $toaddress, $subject, $message, $fromname, $fromaddress);
+
+            header("HTTP/1.0 404 Not Found");
+            exit;
+            return false;
         }
         return false;
     }
